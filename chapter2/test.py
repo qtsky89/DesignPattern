@@ -45,6 +45,7 @@ class WeatherData(Subject):
     @property
     def temperature(self) -> float:
         return self.__temperature
+
     @temperature.setter
     def temperature(self, value: float):
         self.__temperature = value
@@ -52,6 +53,7 @@ class WeatherData(Subject):
     @property
     def humidity(self) -> float:
         return self.__humidity
+
     @humidity.setter
     def humidity(self, value: float):
         self.__humidity = value
@@ -59,6 +61,7 @@ class WeatherData(Subject):
     @property
     def pressure(self) -> float:
         return self.__pressure
+
     @pressure.setter
     def pressure(self, value: float):
         self.__pressure = value
