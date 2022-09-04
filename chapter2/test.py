@@ -3,11 +3,13 @@ import sys
 from abc import ABC, abstractmethod
 from typing import List
 
+# interface
 class Observer(ABC):
     @abstractmethod
-    def update(temperature: float, humidity: float, pressure: float):
+    def update(self, temperature: float, humidity: float, pressure: float):
         raise NotImplementedError
 
+# interface
 class Subject(ABC):
     @abstractmethod
     def register_observer(self, o :Observer):
@@ -18,8 +20,15 @@ class Subject(ABC):
         raise NotImplementedError
     
     @abstractmethod
-    def notify_observers():
+    def notify_observers(self):
         raise NotImplementedError
+
+# interface
+class DisplayElement(ABC):
+    @abstractmethod
+    def display(self):
+        raise NotImplementedError
+
 
 class WeatherData(Subject):
     def __init__(self):
@@ -47,6 +56,26 @@ class WeatherData(Subject):
 
         self.notify_observers()
 
+class CurrentConditionDisplay(Observer, DisplayElement):
+    def __init__(self, weather_data: WeatherData):
+        Observer.__init__(self)
+        DisplayElement.__init__(self)
+
+        self.__temperature: float = 0
+        self.__humidity: float = 0
+
+        self.__weather_data = weather_data
+        self.__weather_data.register_observer(self)
+    
+    def update(self, temperature: float, humidity: float, pressure: float):
+        self.__temperature = temperature
+        self.__humidity = humidity
+        self.display()
+    
+    def display(self):
+        print(f'temperature: {self.__temperature}, humidity: {self.__humidity}')
+    
+ 
 def main(argv):
     print('hello world')
     
