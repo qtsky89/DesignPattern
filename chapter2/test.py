@@ -7,7 +7,7 @@ from typing import List
 # interface
 class Observer(ABC):
     @abstractmethod
-    def update(self, temperature: float, humidity: float, pressure: float):
+    def update(self):
         raise NotImplementedError
 
 
@@ -41,6 +41,28 @@ class WeatherData(Subject):
         self.__humidity: float = 0
         self.__pressure: float = 0
 
+    # getters, setters
+    @property
+    def temperature(self) -> float:
+        return self.__temperature
+    @temperature.setter
+    def temperature(self, value: float):
+        self.__temperature = value
+
+    @property
+    def humidity(self) -> float:
+        return self.__humidity
+    @humidity.setter
+    def humidity(self, value: float):
+        self.__humidity = value
+
+    @property
+    def pressure(self) -> float:
+        return self.__pressure
+    @pressure.setter
+    def pressure(self, value: float):
+        self.__pressure = value
+
     def register_observer(self, o: Observer):
         self.__observers.append(o)
 
@@ -49,7 +71,7 @@ class WeatherData(Subject):
 
     def notify_observers(self):
         for o in self.__observers:
-            o.update(self.__temperature, self.__humidity, self.__pressure)
+            o.update()
 
     def set_mesasurements(self, temperature: float, humidity: float, pressure: float):
         self.__temperature = temperature
@@ -70,9 +92,9 @@ class CurrentConditionDisplay(Observer, DisplayElement):
         self.__weather_data = weather_data
         self.__weather_data.register_observer(self)
 
-    def update(self, temperature: float, humidity: float, pressure: float):
-        self.__temperature = temperature
-        self.__humidity = humidity
+    def update(self):
+        self.__temperature = self.__weather_data.temperature
+        self.__humidity = self.__weather_data.humidity
         self.display()
 
     def display(self):
