@@ -23,7 +23,7 @@ class Menu(metaclass=ABCMeta):
 class DinerMenuIterator(Iterator):
     def __init__(self, menu: List[str]) -> None:
         self.__menu = menu
-        self.__index = 0
+        self.__index = -1
 
     def has_next(self) -> bool:
         if self.__index + 1 <= len(self.__menu) - 1:
