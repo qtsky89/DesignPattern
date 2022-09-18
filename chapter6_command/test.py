@@ -1,7 +1,7 @@
 #!/bin/env python
 import sys
 from command import LightOnCommand
-from simple_remote_control import SimpleRemoteControl
+from remote_control import SimpleRemoteControl
 from light import Light
 
 
