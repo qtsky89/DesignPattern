@@ -3,14 +3,14 @@ import sys
 
 
 class Singleton():
-    value: 'Singleton' = None  # type: ignore
+    __value: 'Singleton' = None  # type: ignore
 
     @classmethod
     def get_instance(cls) -> 'Singleton':
-        if cls.value is None:
+        if cls.__value is None:
             print('inside')
-            cls.value = Singleton()
-        return cls.value
+            cls.__value = Singleton()
+        return cls.__value
 
 
 def main(argv):
