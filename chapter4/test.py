@@ -1,11 +1,12 @@
 #!/bin/env python
 import sys
-from pizza import NystylePizza
+from pizza_store import NyStylePizzaStore
 
 
 def main(argv):
-    p = NystylePizza()
-    p.cut()
+    ps = NyStylePizzaStore()
+    p = ps.orderPizza("cheese")
+    print(p.get_name())
 
 
 if __name__ == '__main__':
