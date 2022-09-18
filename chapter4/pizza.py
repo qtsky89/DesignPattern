@@ -1,21 +1,19 @@
 #!/bin/env python
 from typing import List
+from abc import ABC, abstractmethod
+from pizza_ingredient_factory import Dough, NyStylePizzaIngredient
 
 
-class Pizza:
+class Pizza(ABC):
     def __init__(self):
         self._name = ''
-        self._dough = ''
+        self._dough: Dough = None  # type: ignore
         self._sauce = ''
         self._toppings: List[str] = []
 
+    @abstractmethod
     def prepare(self):
-        print(f'prepare start {self._name}')
-        print(f'roll dough {self._dough}')
-        print(f'add sauce {self._sauce}')
-        print('put toppings')
-        for topping in self._toppings:
-            print(f'topping: {topping}')
+        raise NotImplementedError
 
     def bake(self):
         print('bake in 175 degree for 25 minutes')
@@ -33,8 +31,11 @@ class Pizza:
 class NystylePizza(Pizza):
     def __init__(self):
         super().__init__()
+
+    def prepare(self):
+        f = NyStylePizzaIngredient()
         self._name = 'New York style cheese pizza'
-        self._dough = 'thin cust dough'
+        self._dough = f.create_dough()
         self._sauce = 'tomato sauce'
         self._toppings.extend(['cheese', 'olive'])
 
