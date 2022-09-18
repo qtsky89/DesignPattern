@@ -1,17 +1,17 @@
 #!/bin/env python
 import sys
-from command import LightOnCommand
-from remote_control import SimpleRemoteControl
+from command import LightOffCommand, LightOnCommand
+from remote_control import RemoteControl
 from light import Light
 
 
 def main(argv):
-    remote = SimpleRemoteControl()
+    remote = RemoteControl()
     light = Light('Seoul')
-    light_on = LightOnCommand(light)
-
-    remote.set_command(light_on)
-    remote.button_was_pressed()
+    remote.set_command(0, LightOnCommand(light), LightOffCommand(light))
+    remote.on_btn_pushed(0)
+    remote.off_btn_pushed(0)
+    remote.undo_btn_pushed()
 
 
 if __name__ == '__main__':
