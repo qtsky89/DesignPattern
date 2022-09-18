@@ -1,6 +1,8 @@
 #!/bin/env python
 import sys
 
+# skip facade because it's too ovious
+
 
 def main(argv):
     print('hello world')
