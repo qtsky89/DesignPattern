@@ -16,8 +16,13 @@ class Iterator(metaclass=ABCMeta):
 
 class Menu(metaclass=ABCMeta):
     @abstractmethod
-    def create_iterator() -> Iterator:
+    def create_iterator(self) -> Iterator:
         raise NotImplementedError
+
+
+class CafeMenu(Menu):
+    def create_iterator(self) -> Iterator:
+        return DinerMenuIterator(['omelet', 'hotcake', 'sosauge'])
 
 
 class DinerMenuIterator(Iterator):
@@ -31,13 +36,28 @@ class DinerMenuIterator(Iterator):
 
         return False
 
-    def next(self):
+    def next(self) -> str:
         self.__index += 1
         return self.__menu[self.__index]
 
 
+class Waitress:
+    def __init__(self, cafe_menu: Menu) -> None:
+        self.__cafe_menu = cafe_menu
+
+    def print_menu(self):
+        cafe_iterator = self.__cafe_menu.create_iterator()
+        self.print_menu_iterator(cafe_iterator)
+
+    def print_menu_iterator(self, iterator: Iterator):
+        while iterator.has_next():
+            print(iterator.next())
+
+
 def main(argv):
-    print('hello world')
+    c = CafeMenu()
+    w = Waitress(c)
+    w.print_menu()
 
 
 if __name__ == '__main__':
