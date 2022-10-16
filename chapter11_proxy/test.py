@@ -1,35 +1,39 @@
 #!/bin/env python
-import sys
+
+# https://velog.io/@newtownboy/%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4-%ED%94%84%EB%A1%9D%EC%8B%9C%ED%8C%A8%ED%84%B4Proxy-Pattern
+from abc import ABCMeta, abstractmethod
 
 
-class GumballMachine:
-    def __init__(self, location: str, count: int):
-        self.__location = location
-        self.__count = count
-
-    @property
-    def location(self) -> str:
-        return self.__location
-
-    @property
-    def count(self) -> int:
-        return self.__count
+class Image(metaclass=ABCMeta):
+    @abstractmethod
+    def display_image(self):
+        raise NotImplementedError
 
 
-class GumballMonitor:
-    def __init__(self, m: GumballMachine):
-        self.machine = m
+class RealImage(Image):
+    def __init__(self, file_name: str):
+        self.__file_name = file_name
 
-    def report(self):
-        print(f'location: {self.machine.location}')
-        print(f'count: {self.machine.count}')
+    def display_image(self):
+        print(f'show {self.__file_name}')
 
 
-def main(argv):
-    gm = GumballMachine('Seoul', 5)
-    monitor = GumballMonitor(gm)
-    monitor.report()
+class ProxyImage(Image):
+    def __init__(self, file_name: str):
+        self.__file_name = file_name
+        self.__real_image: RealImage = None
+
+    def display_image(self):
+        if self.__real_image is None:
+            self.__real_image = RealImage(self.__file_name)
+
+        self.__real_image.display_image()
+
+
+def main():
+    p = ProxyImage('hoy')
+    p.display_image()
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()
